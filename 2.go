@@ -1,3 +1,4 @@
+// puzzle at http://adventofcode.com/day/2
 package main
 
 import (
@@ -8,6 +9,7 @@ import (
 
 func main() {
 	totalPaper := 0
+	totalRibbon := 0
 
 	presents := strings.Split(input, "\n")
 	for _, present := range presents {
@@ -16,10 +18,15 @@ func main() {
 		}
 
 		l, w, h := PresentDimensions(present)
+
 		totalPaper += CalculatePaperAmount(l, w, h)
+
+		totalRibbon += CalculateRibbonWrap(l, w, h)
+		totalRibbon += CalculateRibbonBow(l, w, h)
 	}
 
 	fmt.Printf("Total paper needed: %v\n", totalPaper)
+	fmt.Printf("Total ribbon needed: %v\n", totalRibbon)
 }
 
 // Expected format: "[int]x[int]x[int]"
@@ -56,20 +63,42 @@ func PresentDimensions(present string) (int, int, int) {
 
 func CalculatePaperAmount(length, width, height int) int {
 	lw := length * width
-	wh := width * height
 	lh := length * height
+	wh := width * height
 
-	smallestSide := lw
+	smallestArea := lw
 
-	if wh < smallestSide {
-		smallestSide = wh
+	if lh < smallestArea {
+		smallestArea = lh
 	}
 
-	if lh < smallestSide {
-		smallestSide = lh
+	if wh < smallestArea {
+		smallestArea = wh
 	}
 
-	return 2*(lw+wh+lh) + smallestSide
+	return 2*(lw+lh+wh) + smallestArea
+}
+
+func CalculateRibbonWrap(length, width, height int) int {
+	lw := 2 * (length + width)
+	lh := 2 * (length + height)
+	wh := 2 * (width + height)
+
+	smallestPerimiter := lw
+
+	if lh < smallestPerimiter {
+		smallestPerimiter = lh
+	}
+
+	if wh < smallestPerimiter {
+		smallestPerimiter = wh
+	}
+
+	return smallestPerimiter
+}
+
+func CalculateRibbonBow(length, width, height int) int {
+	return length * width * height
 }
 
 var input string = `29x13x26
