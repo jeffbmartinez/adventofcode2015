@@ -14,15 +14,16 @@ func main() {
 
 	for i := 0; ; i++ {
 
-		if i%10001 == 10000 {
+		if i%100001 == 100000 {
 			fmt.Printf("i = %v...\n", i)
 		}
 
 		test := key + strconv.Itoa(i)
 		md5String := MD5Hash(test)
 
-		if md5String[:5] == "00000" {
-			fmt.Printf("First hash with prefix '00000' is %v, from %v\n", md5String, test)
+		targetPrefix := "000000"
+		if md5String[:len(targetPrefix)] == targetPrefix {
+			fmt.Printf("First hash with prefix '000000' is %v, from %v\n", md5String, test)
 			break
 		}
 	}
