@@ -16,29 +16,36 @@ type Location struct {
 var houses = make(map[Location]int)
 
 func main() {
-	x := 0
-	y := 0
+	numSantas := 2
 
-	VisitHouse(x, y)
+	for santaID := 0; santaID < numSantas; santaID++ {
 
-	for i, move := range moves {
-		switch move {
-		case '<':
-			x -= 1
-		case '>':
-			x += 1
-		case '^':
-			y += 1
-		case 'v':
-			y -= 1
-		default:
-			fmt.Printf("Warning: Unexpected input at index %v: %v\n", i, move)
-		}
+		x := 0
+		y := 0
 
 		VisitHouse(x, y)
+
+		for i := santaID; i < len(moves); i += numSantas {
+			move := moves[i]
+
+			switch move {
+			case '<':
+				x -= 1
+			case '>':
+				x += 1
+			case '^':
+				y += 1
+			case 'v':
+				y -= 1
+			default:
+				fmt.Printf("Warning: Unexpected input at index %v: %v\n", i, move)
+			}
+
+			VisitHouse(x, y)
+		}
 	}
 
-	fmt.Printf("Santa visited %v houses in %v moves\n", len(houses), len(moves))
+	fmt.Printf("The santas visited %v houses in %v moves\n", len(houses), len(moves))
 }
 
 func VisitHouse(x, y int) {
