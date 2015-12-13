@@ -27,9 +27,8 @@ func main() {
 
 func IsNice(s string) bool {
 	tests := []func(string) bool{
-		HasTwoOfSameRuneInARow,
-		ContainsThreeOrMoreVowels,
-		NoBadSubstring,
+		HasPairTwice,
+		HasLetterSandwich,
 	}
 
 	for _, test := range tests {
@@ -39,6 +38,31 @@ func IsNice(s string) bool {
 	}
 
 	return true
+}
+
+func HasPairTwice(s string) bool {
+
+	for i := 0; i <= len(s)-4; i++ {
+		pair := s[i : i+2]
+		restOfString := s[i+2:]
+
+		if strings.Contains(restOfString, pair) {
+			return true
+		}
+	}
+
+	return false
+}
+
+func HasLetterSandwich(s string) bool {
+
+	for i := 2; i < len(s); i++ {
+		if s[i-2] == s[i] {
+			return true
+		}
+	}
+
+	return false
 }
 
 func ContainsThreeOrMoreVowels(s string) bool {
