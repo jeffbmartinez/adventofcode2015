@@ -12,7 +12,7 @@ import (
 const gridWidth int = 1000
 const gridHeight int = 1000
 
-var grid [gridHeight][gridWidth]bool
+var grid [gridHeight][gridWidth]int
 
 type Point struct {
 	x int
@@ -31,9 +31,9 @@ func main() {
 		ProcessInstruction(instruction)
 	}
 
-	numLitBulbs := GetNumLitBulbs()
+	totalBrightness := GetTotalBrightness()
 
-	fmt.Printf("There are %v lit bulbs\n", numLitBulbs)
+	fmt.Printf("The totol brightness is %v\n", totalBrightness)
 }
 
 func ProcessInstruction(instruction string) {
@@ -90,11 +90,17 @@ func SetGrid(r Rectangle, value int) {
 		for column := lowY; column <= highY; column++ {
 			switch value {
 			case -1:
-				grid[column][row] = !grid[column][row]
+				grid[column][row] += 2
 			case 0:
-				grid[column][row] = false
+				grid[column][row]--
+
+				if grid[column][row] < 0 {
+					grid[column][row] = 0
+				}
 			case 1:
-				grid[column][row] = true
+				grid[column][row]++
+			default:
+				fmt.Println("Warning: unknown value given to SetGrid")
 			}
 		}
 	}
@@ -130,18 +136,16 @@ func PointFromString(s string) Point {
 	return Point{x, y}
 }
 
-func GetNumLitBulbs() int {
-	numLitBulbs := 0
+func GetTotalBrightness() int {
+	totalBrightness := 0
 
 	for column := 0; column < gridWidth; column++ {
 		for row := 0; row < gridHeight; row++ {
-			if grid[column][row] == true {
-				numLitBulbs++
-			}
+			totalBrightness += grid[column][row]
 		}
 	}
 
-	return numLitBulbs
+	return totalBrightness
 }
 
 var input string = `turn off 660,55 through 986,197
