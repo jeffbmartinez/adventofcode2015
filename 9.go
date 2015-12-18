@@ -38,17 +38,17 @@ func main() {
 
 	paths := Permutations(locations)
 
-	shortestPath := paths[0]
-	shortestDistance := PathDistance(shortestPath)
+	longestPath := paths[0]
+	longestDistance := PathDistance(longestPath)
 
 	for _, path := range paths {
 		pathDistance := PathDistance(path)
 
-		if pathDistance < shortestDistance {
-			shortestPath = path
-			shortestDistance = pathDistance
+		if pathDistance > longestDistance {
+			longestPath = path
+			longestDistance = pathDistance
 
-			fmt.Printf("Shortest path so far is %v long:\n\t%v\n", shortestDistance, shortestPath)
+			fmt.Printf("Longest path so far is %v long:\n\t%v\n", longestDistance, longestPath)
 		}
 	}
 }
