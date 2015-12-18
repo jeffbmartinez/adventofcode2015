@@ -18,20 +18,41 @@ const (
 )
 
 func main() {
-	totalCharacters := 0
-	memoryCharacers := 0
+	originalCharacters := 0
+	encodedCharacers := 0
 
 	strings := strings.Split(Input, "\n")
 
 	for _, s := range strings {
-		memoryString := TranslateCharacters(s)
+		encodedString := EncodeString(s)
 
-		totalCharacters += len(s)
-		memoryCharacers += len(memoryString)
+		originalCharacters += len(s)
+		encodedCharacers += len(encodedString)
 	}
 
-	fmt.Printf("%v characters were used to represent %v in-memory characters.\n", totalCharacters, memoryCharacers)
-	fmt.Printf("That's %v extra characters.\n", totalCharacters-memoryCharacers)
+	fmt.Printf("%v characters were encoded using %v characters.\n", originalCharacters, encodedCharacers)
+	fmt.Printf("That's %v extra characters.\n", encodedCharacers-originalCharacters)
+}
+
+func EncodeString(s string) string {
+	var encodedString bytes.Buffer
+
+	encodedString.WriteRune('"')
+
+	for _, ch := range s {
+		switch ch {
+		case '"':
+			encodedString.WriteString(`\"`)
+		case '\\':
+			encodedString.WriteString(`\\`)
+		default:
+			encodedString.WriteRune(ch)
+		}
+	}
+
+	encodedString.WriteRune('"')
+
+	return encodedString.String()
 }
 
 func TranslateCharacters(s string) string {
