@@ -9,7 +9,7 @@ import (
 )
 
 var input = "1113122113"
-var timesToRepeat = 40
+var timesToRepeat = 50
 var maxPrintDigits = 60
 
 func main() {
